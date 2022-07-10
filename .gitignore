@@ -1,0 +1,7 @@
+# Directories
+.vs
+
+# Files
+*.sln
+*.vcxproj*
+*.pyc
