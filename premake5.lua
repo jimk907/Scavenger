@@ -8,12 +8,12 @@ workspace "Scavenger"
 		"release"
 	}
 
-	tdir = "bin/%{cfg.buildcfg}/%{prj.name}"
-    odir = ".build/%{cfg.buildcfg}/%{prj.name}"
-	ldir = "lib/%{cfg.buildcfg}"
+	tdir = "bin/%{cfg.buildcfg}/%{prj.name}/"
+    odir = ".build/%{cfg.buildcfg}/%{prj.name}/"
+	ldir = "lib/%{cfg.buildcfg}/"
 
-	tst_tdir = "bin/%{cfg.buildcfg}/tests/%{prj.name}"
-	tst_odir = ".build/%{cfg.buildcfg}/tests/%{prj.name}"
+	tst_tdir = "bin/%{cfg.buildcfg}/tests/%{prj.name}/"
+	tst_odir = ".build/%{cfg.buildcfg}/tests/%{prj.name}/"
 
 project "SgeCore"
 	location "vs-projects/sgecore"
@@ -25,8 +25,6 @@ project "SgeCore"
 	staticruntime "on"
 	files
 	{
-		"include/%{prj.name}/**.h",
-		"sourec/%{prj.name}/**.h",
 		"source/%{prj.name}/**.cpp"
 	}
 	includedirs
@@ -48,7 +46,6 @@ project "SgeEngine"
 	staticruntime "on"
 	files
 	{
-		"sourec/%{prj.name}/**.h",
 		"source/%{prj.name}/**.cpp"
 	}
 	includedirs
@@ -58,7 +55,7 @@ project "SgeEngine"
 	}
 	links
 	{
-		"sgecore"
+		"SgeCore"
 	}
 	flags
 	{
@@ -75,21 +72,53 @@ project "SgeCreator"
 	staticruntime "on"
 	files
 	{
-		"include/%{prj.name}/**.h",
-		"sourec/%{prj.name}/**.h",
 		"source/%{prj.name}/**.cpp"
 	}
 	includedirs
 	{
 		"include/sgecore/",
-		"include/sgeengine/"
+		"include/sgeengine/",
+		"include/sgecreator/"
 	}
 	links
 	{
-		"sgecore",
-		"sgeengine"
+		"SgeCore",
+		"SgeEngine"
 	}
 	flags
 	{
 		"FatalWarnings"
 	}
+
+project "Test00_Logger"
+	location "vs-projects/tests/test00_logger"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++20"
+	targetdir(tst_tdir)
+    objdir(tst_odir)
+	staticruntime "on"
+	files
+	{
+		"source/tests/%{prj.name}/**.cpp"
+	}
+	includedirs
+	{
+		"include/sgecore/",
+		"include/sgeengine/",
+		"include/tests/test00_logger/"
+	}
+	libdirs
+	{
+		"libs/%{cfg.buildcfg}/"
+		
+	}
+	links
+	{
+		"SgeCore"
+	}
+	flags
+	{
+		"FatalWarnings"
+	}
+

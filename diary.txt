@@ -1,11 +1,12 @@
 
 2022-Jul-10
-
+Spent more time working on the premake build tools. Eliminated some deprecated methods and planning to add filters and
+various refinements. Setup the project for testing the logger.
 
 2022-Jul-09
 Setup the github repository and then cloned it with Visual Studio 2022. At this point I began following the youtube 
-video series by "progremtic" for his Hippo engine. I am mainly interested in  his use of LUA and Python tools so I
-downloaded both LUA and Python 3. Some of the methods he used did not seem to work with my installation of VS2022
+video series by "progremtic" for his Hippo engine. I am mainly interested in  his use of premake5 and Python tools so I
+downloaded both premake5 and Python 3. Some of the methods he used did not seem to work with my installation of VS2022
 so I made some changes in order to get the gensln.py, buildsln.py and run.py to work in my build environment. Also
 since I am not intending to support non-windows platforms at this time, I did not test the cross-platform methods
 he provides though they are included in my code. This will be the first time I use command line script tools to

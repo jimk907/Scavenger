@@ -1,5 +1,5 @@
 #pragma once
-#include "../sge_defines.h"
+#include "sge_defines.h"
 #include "logformat.h"
 #include "logdispatcher.h"
 

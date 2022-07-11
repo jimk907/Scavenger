@@ -1,5 +1,5 @@
 #include "utilities/string_utils.h"
-#include <stringapiset.h>
+
 
 //=============================================================================
 // NOTE: In general, Jackal treats all strings as UTF-8 and so will convert
