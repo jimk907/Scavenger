@@ -1,5 +1,4 @@
 workspace "Scavenger"
-	startproject "SgeCreator"
 	architecture "x64"
 
 	configurations
@@ -8,95 +7,120 @@ workspace "Scavenger"
 		"release"
 	}
 
-	tdir = "bin/%{cfg.buildcfg}/%{prj.name}/"
-    odir = ".build/%{cfg.buildcfg}/%{prj.name}/"
-	ldir = "lib/%{cfg.buildcfg}/"
+	bin_dir = "bin/%{cfg.buildcfg}/%{prj.name}/"
+    obj_dir = ".build/%{cfg.buildcfg}/%{prj.name}/"
+	lib_dir = "lib/%{cfg.buildcfg}/"
 
-	tst_tdir = "bin/%{cfg.buildcfg}/tests/%{prj.name}/"
-	tst_odir = ".build/%{cfg.buildcfg}/tests/%{prj.name}/"
+	test_bin_dir = "bin/%{cfg.buildcfg}/tests/%{prj.name}/"
+	test_obj_dir = ".build/%{cfg.buildcfg}/tests/%{prj.name}/"
 
 project "SgeCore"
 	location "vs-projects/sgecore"
 	kind "StaticLib"
 	language "C++"
-	cppdialect "C++20"
-	targetdir(ldir)
-    objdir(odir)
-	staticruntime "on"
+	targetdir(lib_dir)
+    objdir(obj_dir)
 	files
 	{
+		"source/%{prj.name}/**.h",
 		"source/%{prj.name}/**.cpp"
 	}
 	includedirs
 	{
-		"include/sgecore/"
+		"source/sgecore/"
 	}
-	flags
-	{
-		"FatalWarnings"
-	}
+	filter "system:windows"
+		cppdialect "C++20"
+		staticruntime "on"
+		systemversion "latest"
+		defines "SGE_WIN32"
+			
+	filter "configurations:debug"
+		defines "SGE_DEBUG"
+		symbols "On"
+
+	filter "configurations:release"
+		defines "SGE_RELEASE"
+		optimize "On"
+
 
 project "SgeEngine"
 	location "vs-projects/sgeengine"
 	kind "StaticLib"
-	language "C++"
-	cppdialect "C++20"
-	targetdir(ldir)
-    objdir(odir)
-	staticruntime "on"
+	targetdir(lib_dir)
+    objdir(obj_dir)
 	files
 	{
+		"source/%{prj.name}/**.h",
 		"source/%{prj.name}/**.cpp"
 	}
 	includedirs
 	{
-		"include/sgecore/",
-		"include/sgeengine/"
+		"source/sgecore/",
+		"source/sgeengine/"
 	}
+	filter "system:windows"
+		cppdialect "C++20"
+		staticruntime "on"
+		systemversion "latest"
+		defines "SGE_WIN32"
+			
+	filter "configurations:debug"
+		defines "SGE_DEBUG"
+		symbols "On"
+
+	filter "configurations:release"
+		defines "SGE_RELEASE"
+		optimize "On"
 	links
 	{
 		"SgeCore"
 	}
-	flags
-	{
-		"FatalWarnings"
-	}
+
 
 project "SgeCreator"
 	location "vs-projects/sgecreator"
 	kind "ConsoleApp"
 	language "C++"
-	cppdialect "C++20"
-	targetdir(tdir)
-    objdir(odir)
-	staticruntime "on"
+	targetdir(bin_dir)
+    objdir(obj_dir)
 	files
 	{
+		"source/%{prj.name}/**.h",
 		"source/%{prj.name}/**.cpp"
 	}
 	includedirs
 	{
-		"include/sgecore/",
-		"include/sgeengine/",
-		"include/sgecreator/"
+		"source/sgecore/",
+		"source/sgeengine/",
+		"source/sgecreator/"
 	}
 	links
 	{
 		"SgeCore",
 		"SgeEngine"
 	}
-	flags
-	{
-		"FatalWarnings"
-	}
+	filter "system:windows"
+		cppdialect "C++20"
+		staticruntime "on"
+		systemversion "latest"
+		defines "SGE_WIN32"
+			
+	filter "configurations:debug"
+		defines "SGE_DEBUG"
+		symbols "On"
+
+	filter "configurations:release"
+		defines "SGE_RELEASE"
+		optimize "On"
 
 project "Test00_Logger"
 	location "vs-projects/tests/test00_logger"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++20"
-	targetdir(tst_tdir)
-    objdir(tst_odir)
+	targetdir(test_bin_dir)
+    objdir(test_obj_dir)
 	staticruntime "on"
 	files
 	{
@@ -104,9 +128,9 @@ project "Test00_Logger"
 	}
 	includedirs
 	{
-		"include/sgecore/",
-		"include/sgeengine/",
-		"include/tests/test00_logger/"
+		"source/sgecore/",
+		"source/sgeengine/",
+		"source/tests/test00_logger/"
 	}
 	libdirs
 	{
@@ -117,8 +141,17 @@ project "Test00_Logger"
 	{
 		"SgeCore"
 	}
-	flags
-	{
-		"FatalWarnings"
-	}
+	filter "system:windows"
+		cppdialect "C++20"
+		staticruntime "on"
+		systemversion "latest"
+		defines "SGE_WIN32"
+			
+	filter "configurations:debug"
+		defines "SGE_DEBUG"
+		symbols "On"
+
+	filter "configurations:release"
+		defines "SGE_RELEASE"
+		optimize "On"
 

@@ -1,4 +1,16 @@
 
+2022-Jul-11
+Pulled the repository from another computer this morning and discovered many problems. Especially since the machine I
+was using then was Windows7 and Python3 was not supported and could not be installed on that machine. Therefore, I have
+decided to once again work on the build tools and find another solution which can be used on the older Windows 7
+machine. For now, since I am only targeting Windows builds, batch files should should get me back on track since I
+want to spend more time on the engine and less on the build tools.
+Completed a version of Test00_Logger to confirm proper project setup (with the revised build system) and check the
+Logger functions. For now, logging to the console is accpetable. Later we will need to log to the buffered dispatcher
+when we begin release builds or for logging inside the SgeCreator application. Will continue to refine build tools as
+required.
+
+
 2022-Jul-10
 Spent more time working on the premake build tools. Eliminated some deprecated methods and planning to add filters and
 various refinements. Setup the project for testing the logger.

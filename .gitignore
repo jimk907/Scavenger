@@ -5,3 +5,8 @@
 *.sln
 *.vcxproj*
 *.pyc
+*.obj
+*.tlog
+*.idb
+*.ilk
+*.pdb

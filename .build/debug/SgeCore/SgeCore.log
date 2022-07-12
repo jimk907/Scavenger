@@ -1,2 +1,6 @@
-﻿  string_utils.cpp
+﻿  character_utils.cpp
+  numeric_utils.cpp
+  string_utils.cpp
+  time_utils.cpp
+  Generating Code...
   SgeCore.vcxproj -> C:\Users\jimk9\source\repos\github\Scavenger\lib\debug\SgeCore.lib
