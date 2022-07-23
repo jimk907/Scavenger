@@ -3,7 +3,7 @@
 #include "utilities/string_utils.h"
 
 
-namespace sgecore
+namespace sge
 {
 
 	//------------------------------------------------------------
@@ -16,6 +16,10 @@ namespace sgecore
 	protected:
 		static void Dispatch(const String& msg)
 		{
+			Dispatch(msg.to_string());
+		}
+		static void Dispatch(const std::string& msg)
+		{
 			std::wcout << toUTF16(msg) << std::endl;
 		}
 	};
@@ -27,13 +31,13 @@ namespace sgecore
 	class BufferedDispatcher
 	{	
 	protected:
-		static void Dispatch(const String& msg)
+		static void Dispatch(const std::string& msg)
 		{
 			m_LogBuffer.push_back(msg);
 		}
 
 	private:
-		static std::vector<String> m_LogBuffer;
+		static std::vector<std::string> m_LogBuffer;
 
 	};
 
@@ -49,7 +53,13 @@ namespace sgecore
 	protected:
 		static void Dispatch(const String& msg)
 		{
-			MessageBoxW(GetDesktopWindow(), toUTF16(msg).c_str(), L"SgeLog Message", MB_OK);
+			std::wstring mg = msg.to_wstring();
+			MessageBoxW(GetDesktopWindow(), mg.c_str(), L"SgeLog Message", MB_OK);
+		}
+		static void Dispatch(const std::string& msg)
+		{
+			std::wstring mg = toUTF16(msg);
+			MessageBoxW(GetDesktopWindow(), mg.c_str(), L"SgeLog Message", MB_OK);
 		}
 	};
 
@@ -57,4 +67,4 @@ namespace sgecore
 
 
 
-} // namespace sgecore
+} // namespace sge

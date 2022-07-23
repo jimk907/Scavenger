@@ -81,7 +81,7 @@ typedef uint32_t handle;
 // Provide short-hand definitions for std string types
 //-------------------------------------------------------------
 typedef std::wstring WString;
-typedef std::string  String;
+//typedef std::string  String;
 
 
 //-------------------------------------------------------------

@@ -1,3 +1,44 @@
+2022-Jul-23
+Since a goal of this project is to support unicode, a new 'String' class was created to facilitate easy
+conversion to and from other types of std strings. String is a essentially a wrapper around std::u32string and
+provides additional functions and operators that encapsulate many types of conversion functions. For example:
+	uint32_t n = String.to_uint(); // convert string to unsigned int
+	String s(123); // construct string from numerical value
+	String s(L"abc"); // construct string from another type of string;
+	bool t = String s("abc") == std::string("abc"); // string compare of different types of strings
+	etc...
+While all of these conversions are possible using various functions and algorithms in the standard library, I
+prefer the idea of building it all into a single class so it is not necessary to always go looking for the best
+way to do mundane things like string-number conversions.
+
+The biggest argument against u32strings is the fact they require more memory than other types such as UTF-8. But
+this library is not intented to be string "heavy" such as would be the case for a word processor. The advantage 
+of u32strings, is there is one char32_t for each code point making it easy to use functions which require offsets
+into the string data, for example: .length(), .substr(x, y) str[3] = U"x".
+
+The logger used for this early development is 'good enough' for now. I will likely continue to use it for testing
+the major parts of the core libaray, but at some point in the future it will be replaces with another library that
+supports multi-threaded logging.
+
+
+2022-Jul-17
+Spent several days exploring the possibility of converting the build system to CMake. I had limited success in
+reproducing the project layout I prefer but in the decided, the learning curve for proficiency in CMake would
+impede the goal of writing code and using the engine. For now, I have decided to move on.
+I decided to make major change to the way strings are handled in the engine. It has long been a goal to support
+unicode strings and since C++17, the standard library is starting to move that way. Therefore I created a String
+class which is a wrapper around the std::u32string class. The main difference is, the String class has built-in
+conversion functions to from/to other types of string and to/from other POD types. It was a major change but I am
+hoping that it will save time since I no longer have to lookup various types of conversions. Test02_String will
+check the integrity of the new String class.
+
+2022-Jul-13
+After making some changes I pulled Scavenger on my Windows 7 machine and this time I was able to run gensln.bat and
+created the project files. However, when I opened them with VS2022, it claimed they could not be built because the 
+C++ toolset v143 was not installed - and yet is was. I had to close the project and reopen it to build the project.
+This worked but for sure as VS2022 continues to evolve it becomes more and more incompatible with Windows 7. I will 
+probably abandon further attempts to pull the repository with WIndows 7.
+
 
 2022-Jul-11
 Pulled the repository from another computer this morning and discovered many problems. Especially since the machine I
@@ -14,6 +55,7 @@ required.
 2022-Jul-10
 Spent more time working on the premake build tools. Eliminated some deprecated methods and planning to add filters and
 various refinements. Setup the project for testing the logger.
+
 
 2022-Jul-09
 Setup the github repository and then cloned it with Visual Studio 2022. At this point I began following the youtube 

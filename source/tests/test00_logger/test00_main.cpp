@@ -2,7 +2,7 @@
 #include "utilities/gen_utils.h"
 
 
-using namespace sgecore;
+using namespace sge;
 char HOLD_CHAR(' ');
 
 

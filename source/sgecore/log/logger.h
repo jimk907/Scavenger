@@ -6,7 +6,7 @@
 
 
 
-namespace sgecore
+namespace sge
 {
 
 	enum class SgeLogLevel : u8
@@ -25,7 +25,12 @@ namespace sgecore
 	class Logger : private Formatter, private Dispatcher
 	{
 	public:
-		static void Log(const WString& msg, SgeLogLevel type)
+		static void Log(const String& msg, SgeLogLevel type)
+		{
+			Log(msg.to_string().c_str(), type);
+		}
+
+		static void Log(const std::wstring& msg, SgeLogLevel type)
 		{
 			Log(toUTF8(msg).c_str(), type);
 		}
@@ -60,7 +65,7 @@ namespace sgecore
 				std::vector<char> buffer(nchars + 1U);
 				std::vsnprintf(buffer.data(), buffer.size(), format, args);
 				//String msg({ buffer.begin(), buffer.end() });
-				String msg(buffer.data());
+				std::string msg(buffer.data());
 				Log(msg.c_str(), type);
 			}
 
@@ -87,12 +92,12 @@ namespace sgecore
 	};
 
 
-} // namespace sgecore
+} // namespace sge
 
 namespace LOGGER
 {
 
-	using namespace sgecore;
+	using namespace sge;
 
 	inline void LOG_INF(const String& msg) { Logger<>::Log(msg, SgeLogLevel::INFO); }
 	inline void LOG_TRC(const String& msg) { Logger<>::Log(msg, SgeLogLevel::TRACE); }

@@ -1,4 +1,29 @@
-﻿  character_utils.cpp
+﻿  file_ini.cpp
+  file_json.cpp
+  file_xml.cpp
+  mat3.cpp
+  mat4.cpp
+  plane.cpp
+  quat.cpp
+  sge_math.cpp
+  vec2.cpp
+  vec3.cpp
+  vec4.cpp
+  string.cpp
+  unicode.cpp
+  aabb.cpp
+  aabb2d.cpp
+  billboardmatrix.cpp
+  color.cpp
+  frustum.cpp
+  object.cpp
+  quad.cpp
+  Generating Code...
+  Compiling...
+  rectangle.cpp
+  sprite2d.cpp
+  vertex2d.cpp
+  character_utils.cpp
   numeric_utils.cpp
   string_utils.cpp
   time_utils.cpp

@@ -1,14 +1,18 @@
 #pragma once
 #include "sge_defines.h"
+#include "string/string.h"
 #include <locale>
 #include <iomanip>
 #include <sstream>
 
-
+using namespace sge;
 
 extern const String DELIMCSV; // list of CVS delimeters
 extern const String DELIMDIR; // list of path delimeters
 extern const String DELIMSPC; // list of white-space delimiters
+
+const wchar_t SGE_STR_BOOL_TRUE[] = L"true";
+const wchar_t SGE_STR_BOOL_FALSE[] = L"false";
 
 
 std::string  toUTF8(const std::wstring& src);
@@ -56,6 +60,10 @@ bool IsInt(const String& str);
 bool IsUint(const String& str);
 bool IsBool(const String& str);
 
+bool Strtob(const   String& s);
+bool Str2Int(const  String& s, i32& v);
+bool Str2Bool(const String& s, bool& v);
+bool Str2Real(const String& s, real& v);
 
 // Convert a value to a hex string:
 //    v      = value to be converted

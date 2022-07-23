@@ -54,7 +54,7 @@ std::string toUTF8(const std::wstring& src) {
 
 std::wstring toUTF16(const char* src, size_t n)
 {
-	String s = "";
+	std::string s = "";
 	for (auto i = 0; i < n; ++i)
 	{
 		if (src[i] == '\0')
@@ -303,12 +303,12 @@ u32 Tokenize(const String& str, u32 vals[], int size)
 
 int toInt(const String& str)
 {
-	return (int)std::strtol(str.c_str(), 0, 10);
+	return (int)std::strtol(str.to_string().c_str(), 0, 10);
 }
 
 u32 toUint(const String& str)
 {
-	return std::strtoul(str.c_str(), 0, 0);
+	return std::strtoul(str.to_string().c_str(), 0, 0);
 }
 
 bool   toBool(const String& str)
@@ -321,12 +321,12 @@ bool   toBool(const String& str)
 
 float  toFloat(const String& str)
 {
-	return std::strtof(str.c_str(), nullptr);
+	return std::strtof(str.to_string().c_str(), nullptr);
 }
 
 double toDouble(const String& str)
 {
-	return std::strtod(str.c_str(), nullptr);
+	return std::strtod(str.to_string().c_str(), nullptr);
 }
 
 
@@ -334,7 +334,7 @@ bool toInt(const String& str, int* v)
 {
 	int chk(0);
 	try {
-		chk = (int)std::strtol(str.c_str(), 0, 0);
+		chk = (int)std::strtol(str.to_string().c_str(), 0, 0);
 	}
 	catch (std::exception& e)
 	{
@@ -349,7 +349,7 @@ bool toUint(const String& str, u32* v)
 {
 	u32 chk(0);
 	try {
-		chk = (u32)std::strtoul(str.c_str(), 0, 0);
+		chk = (u32)std::strtoul(str.to_string().c_str(), 0, 0);
 	}
 	catch (std::exception& e)
 	{
@@ -375,7 +375,7 @@ bool toFloat(const String& str, float* v)
 {
 	float chk(0.0f);
 	try {
-		chk = (float)std::strtod(str.c_str(), 0);
+		chk = (float)std::strtod(str.to_string().c_str(), 0);
 	}
 	catch (std::exception& e)
 	{
@@ -390,7 +390,7 @@ bool toDouble(const String& str, double* v)
 {
 	double chk(0.0f);
 	try {
-		chk = std::strtod(str.c_str(), 0);
+		chk = std::strtod(str.to_string().c_str(), 0);
 	}
 	catch (std::exception& e)
 	{
@@ -405,41 +405,97 @@ bool toDouble(const String& str, double* v)
 bool IsReal(const String& str)
 {
 	char* eptr(0);
-	real v = (real)strtod(str.c_str(), &eptr);
-	return !(*eptr != '\0' || eptr == str.c_str());
+	real v = (real)strtod(str.to_string().c_str(), &eptr);
+	return !(*eptr != '\0' || eptr == str.to_string().c_str());
 }
 
 bool IsInt(const String& str)
 {
 	char* eptr(0);
-	int v = strtol(str.c_str(), &eptr, 10);
-	if ((eptr - str.c_str()) == str.length())
+	int v = strtol(str.to_string().c_str(), &eptr, 10);
+	if ((eptr - str.to_string().c_str()) == str.length())
 		return true;
-	return !(*eptr != '\0' || eptr == str.c_str());
+	return !(*eptr != '\0' || eptr == str.to_string().c_str());
 }
 
 bool IsUint(const String& str)
 {
 	char* eptr(0);
-	String chk = RTrim(str);
+	String chk = RTrim(str.to_string());
 	if (!chk.empty())
 		if (chk[0] == '-')
 			return false;
-	u32 v = strtoul(str.c_str(), &eptr, 0);
-	if ((eptr - str.c_str()) == str.length())
+	u32 v = strtoul(str.to_string().c_str(), &eptr, 0);
+	if ((eptr - str.to_string().c_str()) == str.length())
 		return true;
-	return !(*eptr != '\0' || eptr == str.c_str());
+	return !(*eptr != '\0' || eptr == str.to_string().c_str());
 }
 
 bool IsBool(const String& str)
 {
-	String chk(toLower(str));
+	String chk(toLower(str.to_string()));
 	if (chk == "true" || chk == "false" ||
 		chk == "yes" || chk == "no" ||
 		chk == "1" || chk == "0")
 		return true;
 	else
 		return false;
+}
+
+
+bool Strtob(const String& str)
+{
+	std::wstring t(str.to_wstring());
+	transform(t.begin(), t.end(), t.begin(), ::tolower);
+	if (t == SGE_STR_BOOL_TRUE)
+		return true;
+	return false;
+}
+
+bool Str2Int(const String& str, i32& v)
+{
+	std::wstring s(str.to_wstring());
+	bool b(IsInt(s));
+	if (b) {
+		size_t p(0);
+		v = std::stoi(s, &p, 0);
+	}
+	return b;
+}
+
+bool Str2Bool(const String& str, bool& v)
+{
+	bool b(IsBool(str));
+	if (b) {
+		std::wstring t(str.to_wstring());
+		transform(t.begin(), t.end(), t.begin(), ::tolower);
+		if (t == SGE_STR_BOOL_TRUE)
+			v = true;
+		else
+			if (t == SGE_STR_BOOL_FALSE)
+				v = false;
+	}
+	if (!b)
+	{
+		if (IsInt(str)) {
+			b = true;
+			i32 w(0);
+			Str2Int(str, w);
+			v = static_cast<bool>(w);
+		}
+	}
+	return b;
+}
+
+bool Str2Real(const String& str, float& v)
+{
+	std::wstring s(str.to_wstring());
+	bool b(IsReal(s));
+	if (b) {
+		size_t p(0);
+		v = std::stof(s, &p);
+	}
+	return b;
 }
 
 std::string toHexString(u64 v, int places, bool upcase)
